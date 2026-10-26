@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Macross AI — Sitio web corporativo
 
-## Getting Started
+Sitio de Macross AI construido con **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS 4** e iconos **Lucide**.
 
-First, run the development server:
+## Comandos
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install        # instalar dependencias
+npm run dev        # desarrollo en http://localhost:3000
+npm run build      # build de producción
+npm run start      # servir el build
+npm run lint       # ESLint
+npm run typecheck  # verificación de tipos
+npm run format     # Prettier
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuración
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copia `.env.example` como `.env.local` y completa los valores. Todo lo que no esté configurado **no se muestra** en el sitio (no se publican datos inventados):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable                                                       | Uso                                                                          |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                         | Dominio final (SEO, sitemap, Open Graph)                                     |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER`                                  | Botones de WhatsApp (formato `5939XXXXXXXX`)                                 |
+| `NEXT_PUBLIC_CONTACT_EMAIL` / `_PHONE` / `_ADDRESS`            | Datos de contacto en el pie y en la sección de contacto                      |
+| `NEXT_PUBLIC_SOCIAL_*`                                         | Enlaces a redes sociales                                                     |
+| `RESEND_API_KEY` + `CONTACT_TO_EMAIL` (+ `CONTACT_FROM_EMAIL`) | Envío del formulario por correo con [Resend](https://resend.com)             |
+| `CONTACT_WEBHOOK_URL`                                          | Alternativa: envía el formulario como JSON a un webhook (Make, Zapier, n8n…) |
+| `NEXT_PUBLIC_GA_ID`                                            | Google Analytics 4, se carga solo tras aceptar cookies                       |
 
-## Learn More
+Si el formulario no tiene Resend ni webhook configurado, avisa al usuario que el mensaje **no** se envió.
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                      # Rutas
+│   ├── page.tsx              # Inicio (todas las secciones)
+│   ├── servicios/            # Catálogo y página de detalle por servicio
+│   ├── actions/contact.ts    # Server Action del formulario
+│   ├── politica-de-privacidad/, terminos-y-condiciones/
+│   ├── sitemap.ts, robots.ts, opengraph-image.tsx, icon.png
+├── assets/brand/             # Logo (símbolo) y mascota optimizados
+├── components/
+│   ├── layout/               # Header, Footer, Logo, LegalPage
+│   ├── sections/             # Hero, servicios, soluciones, proceso, portafolio...
+│   ├── contact/              # Formulario y sección de contacto
+│   ├── analytics/            # GA4 con consentimiento
+│   └── ui/                   # Botones, encabezados, animación Reveal
+├── config/site.ts            # Datos de la empresa y navegación
+├── data/                     # Contenido editable (servicios, soluciones, portafolio, testimonios)
+└── lib/                      # Utilidades y validación (zod)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Editar contenido
 
-## Deploy on Vercel
+- **Servicios**: `src/data/services.ts` (cada servicio genera su página `/servicios/<slug>`).
+- **Portafolio**: `src/data/content.ts` → `portfolio`. Los ejemplos actuales están marcados como demostraciones conceptuales; reemplázalos por proyectos reales con autorización (`isConcept: false`, `image`, `href`).
+- **Testimonios**: `src/data/content.ts` → `testimonials`. Solo se muestran los que tengan `publicationAuthorized: true`; mientras esté vacío se muestran los principios de trabajo.
+- **Textos legales**: son una base de referencia y deben ser revisados por un profesional legal.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Las imágenes originales entregadas están en `assets/originales/`.
