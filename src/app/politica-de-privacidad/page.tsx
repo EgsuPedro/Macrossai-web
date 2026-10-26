@@ -92,7 +92,7 @@ export default function PrivacyPage() {
         <h2>8. Cookies</h2>
         <p>
           Este sitio solo utiliza cookies de analítica si las aceptas en el aviso correspondiente. Puedes cambiar tu
-          elección borrando los datos del sitio en tu navegador.
+          elección en cualquier momento desde el enlace “Preferencias de cookies” al pie de cada página.
         </p>
       </section>
     </LegalPage>

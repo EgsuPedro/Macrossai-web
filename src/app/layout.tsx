@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { siteConfig } from "@/config/site";
-import { Analytics } from "@/components/analytics/Analytics";
+import { CookieConsent } from "@/components/analytics/CookieConsent";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import "./globals.css";
@@ -104,7 +104,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
-        <Analytics gaId={siteConfig.gaId} />
+        <CookieConsent gaId={siteConfig.gaId} />
       </body>
     </html>
   );

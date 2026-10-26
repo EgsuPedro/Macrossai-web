@@ -4,6 +4,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { mainNav, siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { whatsappUrl } from "@/lib/whatsapp";
+import { CookiePreferencesButton } from "@/components/analytics/CookieConsent";
 import { Logo } from "./Logo";
 
 async function CurrentYear() {
@@ -146,6 +147,9 @@ export function Footer() {
               <Link href="/terminos-y-condiciones" className="hover:text-electric">
                 Términos y condiciones
               </Link>
+            </li>
+            <li>
+              <CookiePreferencesButton className="hover:text-electric cursor-pointer" />
             </li>
           </ul>
         </div>
