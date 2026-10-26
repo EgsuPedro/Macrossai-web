@@ -92,7 +92,8 @@ export default function PrivacyPage() {
         <h2>8. Cookies</h2>
         <p>
           Este sitio solo utiliza cookies de analítica si las aceptas en el aviso correspondiente. Puedes cambiar tu
-          elección en cualquier momento desde el enlace “Preferencias de cookies” al pie de cada página.
+          elección en cualquier momento desde el botón “Cookies” en la esquina inferior izquierda o el enlace
+          “Preferencias de cookies” al pie de cada página.
         </p>
       </section>
     </LegalPage>
