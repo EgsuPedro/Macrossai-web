@@ -48,6 +48,12 @@ export default function PrivacyPage() {
             Datos que nos entregas en el formulario: nombre, negocio o empresa, correo electrónico, teléfono, servicio
             de interés y la descripción de tu necesidad.
           </li>
+          <li>
+            Si compartes un testimonio: nombre, negocio, correo electrónico, calificación y comentario. Con tu
+            autorización, publicamos el nombre, el negocio, la calificación y el comentario; el correo nunca se publica
+            y solo se usa para confirmar la autenticidad del testimonio. Puedes pedir que lo retiremos en cualquier
+            momento.
+          </li>
           <li>Datos de navegación anónimos o seudonimizados, solo si aceptas las cookies de analítica.</li>
         </ul>
       </section>
@@ -75,9 +81,9 @@ export default function PrivacyPage() {
       <section>
         <h2>6. Encargados y transferencias</h2>
         <p>
-          Podemos apoyarnos en proveedores tecnológicos (por ejemplo, servicios de correo electrónico, alojamiento web o
-          analítica) que tratan datos por nuestra cuenta y bajo medidas de seguridad adecuadas. No vendemos tus datos
-          personales.
+          Podemos apoyarnos en proveedores tecnológicos (por ejemplo, servicios de correo electrónico, alojamiento web,
+          bases de datos como Supabase para los testimonios, o analítica) que tratan datos por nuestra cuenta y bajo
+          medidas de seguridad adecuadas. No vendemos tus datos personales.
         </p>
       </section>
       <section>

@@ -1,5 +1,6 @@
 "use server";
 
+import { updateTag } from "next/cache";
 import { looksLikeBot, notify } from "@/lib/notify";
 import {
   testimonialErrors,
@@ -7,10 +8,11 @@ import {
   testimonialSchema,
   type TestimonialState,
 } from "@/lib/testimonial-schema";
+import { insertTestimonial, TESTIMONIALS_TAG, testimonialsDbConfigured } from "@/lib/testimonials-db";
 
 /**
- * Recibe un testimonio y lo envía para moderación.
- * No se publica automáticamente: se agrega a `src/data/content.ts` una vez revisado.
+ * Guarda el testimonio en Supabase y lo publica de inmediato en el slider.
+ * Si Resend o un webhook están configurados, además envía un aviso para poder revisarlo.
  */
 export async function submitTestimonial(_prev: TestimonialState, formData: FormData): Promise<TestimonialState> {
   if (looksLikeBot(formData)) {
@@ -22,37 +24,46 @@ export async function submitTestimonial(_prev: TestimonialState, formData: FormD
     return { status: "invalid", message: "Revisa los campos marcados.", fieldErrors: testimonialErrors(parsed.error) };
   }
 
+  if (!testimonialsDbConfigured) {
+    return {
+      status: "unavailable",
+      message:
+        "La publicación de testimonios aún no está conectada, así que tu testimonio no se ha guardado. Puedes compartirlo con nosotros por WhatsApp.",
+    };
+  }
+
   const data = parsed.data;
-  const submittedAt = new Date().toISOString();
   try {
-    const delivered = await notify({
-      subject: `Nuevo testimonio (${data.rating}★) — ${data.name}`,
-      heading: "Nuevo testimonio para revisar",
-      replyTo: data.email,
-      rows: [
-        ["Nombre", data.name],
-        ["Negocio / empresa", data.company || "—"],
-        ["Correo", data.email],
-        ["Calificación", `${"★".repeat(data.rating)}${"☆".repeat(5 - data.rating)} (${data.rating}/5)`],
-        ["Autoriza publicación", "Sí"],
-        ["Fecha", submittedAt],
-      ],
-      body: { title: "Testimonio", text: data.quote },
-      payload: { type: "testimonio", ...data, submittedAt },
-    });
-    if (!delivered) {
+    const result = await insertTestimonial(data);
+    if (result === "duplicate") {
       return {
-        status: "unavailable",
-        message:
-          "El formulario aún no está conectado a un servicio de envío, así que tu testimonio no se ha enviado. Puedes compartirlo con nosotros por WhatsApp.",
+        status: "invalid",
+        message: "Ya recibimos un testimonio con este correo. ¡Gracias por compartir tu experiencia!",
+        fieldErrors: { email: "Este correo ya tiene un testimonio publicado." },
       };
     }
-    return {
-      status: "success",
-      message: "¡Gracias por tu testimonio! Lo revisaremos y lo publicaremos pronto.",
-    };
   } catch (error) {
-    console.error("[testimonial] Error al enviar el testimonio:", error);
-    return { status: "error", message: "Ocurrió un problema al enviar tu testimonio. Inténtalo de nuevo más tarde." };
+    console.error("[testimonial] Error al guardar el testimonio:", error);
+    return { status: "error", message: "Ocurrió un problema al guardar tu testimonio. Inténtalo de nuevo más tarde." };
   }
+
+  // Refresca el slider al instante para todos los visitantes.
+  updateTag(TESTIMONIALS_TAG);
+
+  // Aviso opcional por correo/webhook; si falla o no está configurado, el testimonio ya quedó publicado.
+  notify({
+    subject: `Nuevo testimonio publicado (${data.rating}★) — ${data.name}`,
+    heading: "Se publicó un nuevo testimonio en el sitio",
+    replyTo: data.email,
+    rows: [
+      ["Nombre", data.name],
+      ["Negocio / empresa", data.company || "—"],
+      ["Correo", data.email],
+      ["Calificación", `${"★".repeat(data.rating)}${"☆".repeat(5 - data.rating)} (${data.rating}/5)`],
+    ],
+    body: { title: "Testimonio", text: data.quote },
+    payload: { type: "testimonio", ...data, submittedAt: new Date().toISOString() },
+  }).catch((error) => console.error("[testimonial] No se pudo enviar el aviso:", error));
+
+  return { status: "success", message: "¡Gracias por tu testimonio! Ya está publicado en nuestra página." };
 }

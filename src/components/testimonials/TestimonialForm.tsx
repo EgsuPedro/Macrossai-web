@@ -110,7 +110,7 @@ export function TestimonialForm({ whatsapp }: { whatsapp?: string | null }) {
         ) : (
           <form onSubmit={handleSubmit} noValidate className="relative space-y-5 px-6 py-6">
             <p className="text-muted text-sm leading-relaxed">
-              Cuéntanos cómo fue trabajar con Macross AI. Revisamos cada testimonio antes de publicarlo.
+              Cuéntanos cómo fue trabajar con Macross AI. Tu testimonio se publicará en nuestra página.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">

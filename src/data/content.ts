@@ -206,9 +206,8 @@ export type Testimonial = {
 };
 
 /**
- * Testimonios del slider.
- * Los de ejemplo (`isSample: true`) se reemplazan por testimonios reales recibidos desde el formulario
- * "Comparte tu experiencia", una vez revisados y con `publicationAuthorized: true`.
+ * Testimonios locales del slider. Los enviados desde el formulario se guardan en Supabase y se muestran primero.
+ * Los de ejemplo (isSample: true) solo rellenan el slider mientras haya menos de 3 testimonios reales.
  */
 export const testimonials: Testimonial[] = [
   {
@@ -248,9 +247,6 @@ export const testimonials: Testimonial[] = [
     isSample: true,
   },
 ];
-
-/** Testimonios que se muestran: reales autorizados + ejemplos marcados como tales. */
-export const visibleTestimonials = testimonials.filter((t) => t.publicationAuthorized || t.isSample);
 
 export const workPrinciples: { title: string; text: string }[] = [
   {

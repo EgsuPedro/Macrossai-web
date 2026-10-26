@@ -1,12 +1,21 @@
-import { visibleTestimonials } from "@/data/content";
+import { testimonials } from "@/data/content";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getPublishedTestimonials } from "@/lib/testimonials-db";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { TestimonialForm } from "./TestimonialForm";
 import { TestimonialSlider } from "./TestimonialSlider";
 
-export function Testimonials() {
-  const hasSamples = visibleTestimonials.some((t) => t.isSample);
+/** Con al menos este número de testimonios reales, dejan de mostrarse los de ejemplo. */
+const MIN_REAL_BEFORE_HIDING_SAMPLES = 3;
+
+export async function Testimonials() {
+  const fromDb = await getPublishedTestimonials();
+  const local = testimonials.filter((t) => t.publicationAuthorized && !t.isSample);
+  const real = [...fromDb, ...local];
+  const samples = real.length < MIN_REAL_BEFORE_HIDING_SAMPLES ? testimonials.filter((t) => t.isSample) : [];
+  const visibleTestimonials = [...real, ...samples];
+  const hasSamples = samples.length > 0;
 
   return (
     <section id="testimonios" className="relative overflow-hidden py-24 sm:py-32">

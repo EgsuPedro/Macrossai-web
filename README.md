@@ -30,6 +30,17 @@ Copia `.env.example` como `.env.local` y completa los valores. Todo lo que no es
 
 Si el formulario no tiene Resend ni webhook configurado, avisa al usuario que el mensaje **no** se envió.
 
+### Testimonios con Supabase
+
+Los testimonios enviados desde "Comparte tu experiencia" se guardan en Supabase y se publican al instante.
+
+1. Crea un proyecto gratuito en [supabase.com](https://supabase.com).
+2. En **SQL Editor → New query**, pega el contenido de [`supabase/schema.sql`](supabase/schema.sql) y pulsa **Run**.
+3. En **Project Settings → API** copia la **Project URL** y la clave secreta (**service_role** o `sb_secret_…`).
+4. Agrégalas como `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` en `.env.local` y en las variables de entorno de Vercel.
+
+Para ocultar un testimonio: **Table Editor → testimonials**, desmarca `published` (o borra la fila). El cambio se refleja en el sitio en pocos minutos.
+
 ## Estructura
 
 ```

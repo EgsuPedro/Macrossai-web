@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/** Enlaces o dominios: los testimonios se publican al instante, así que no se aceptan para evitar spam. */
+const LINK_PATTERN = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|ec|io|co|info|xyz|ru)\b)/i;
+
 /** Esquema compartido entre el formulario de testimonios (cliente) y la acción del servidor. */
 export const testimonialSchema = z.object({
   name: z.string().trim().min(2, "Ingresa tu nombre.").max(80, "El nombre es demasiado largo."),
@@ -14,7 +17,8 @@ export const testimonialSchema = z.object({
     .string()
     .trim()
     .min(20, "Cuéntanos un poco más (mínimo 20 caracteres).")
-    .max(600, "El testimonio es demasiado largo (máximo 600 caracteres)."),
+    .max(600, "El testimonio es demasiado largo (máximo 600 caracteres).")
+    .refine((text) => !LINK_PATTERN.test(text), "Por seguridad, el testimonio no puede incluir enlaces."),
   consent: z.literal("on", { error: "Necesitamos tu autorización para publicar el testimonio." }),
 });
 
