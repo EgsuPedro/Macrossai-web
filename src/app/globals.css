@@ -112,6 +112,14 @@ body {
   }
 }
 
+/* Video del hero (escritorio): se funde con el fondo por la izquierda, arriba y abajo */
+@utility hero-video-fade {
+  mask-image:
+    linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.35) 22%, black 48%),
+    linear-gradient(to bottom, transparent 0%, black 16%, black 82%, transparent 100%);
+  mask-composite: intersect;
+}
+
 /* Aparición suave: solo se oculta si JS está activo */
 .js .reveal {
   opacity: 0;
