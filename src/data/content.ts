@@ -197,12 +197,60 @@ export type Testimonial = {
   name: string;
   company: string;
   quote: string;
-  /** Solo se publican testimonios con autorización explícita. */
+  /** Calificación de 1 a 5. */
+  rating: number;
+  /** Solo se publican testimonios con autorización explícita del cliente. */
   publicationAuthorized: boolean;
+  /** true = testimonio de ejemplo (no es un cliente real); se muestra con la etiqueta "Testimonio de ejemplo". */
+  isSample?: boolean;
 };
 
-/** Agrega aquí testimonios reales verificados. Mientras esté vacío se muestran los principios de trabajo. */
-export const testimonials: Testimonial[] = [];
+/**
+ * Testimonios del slider.
+ * Los de ejemplo (`isSample: true`) se reemplazan por testimonios reales recibidos desde el formulario
+ * "Comparte tu experiencia", una vez revisados y con `publicationAuthorized: true`.
+ */
+export const testimonials: Testimonial[] = [
+  {
+    name: "Andrea M.",
+    company: "Tienda de ropa, Quito",
+    quote:
+      "Nos ayudaron a ordenar nuestras redes y a lanzar la tienda online. Ahora los clientes nos encuentran y compran directamente desde el celular.",
+    rating: 5,
+    publicationAuthorized: false,
+    isSample: true,
+  },
+  {
+    name: "Carlos R.",
+    company: "Consultorio odontológico",
+    quote:
+      "La página web quedó profesional y rápida. El botón de WhatsApp nos trae consultas todas las semanas y el agendamiento es mucho más simple.",
+    rating: 5,
+    publicationAuthorized: false,
+    isSample: true,
+  },
+  {
+    name: "Gabriela T.",
+    company: "Emprendimiento de repostería",
+    quote:
+      "Empecé sin saber por dónde arrancar. Me acompañaron con la marca, las campañas en Facebook y la facturación electrónica. Todo en un solo lugar.",
+    rating: 5,
+    publicationAuthorized: false,
+    isSample: true,
+  },
+  {
+    name: "Luis P.",
+    company: "Distribuidora comercial",
+    quote:
+      "El sistema web a la medida nos permitió dejar las hojas de cálculo. Tenemos pedidos e inventario centralizados y el equipo trabaja más organizado.",
+    rating: 4,
+    publicationAuthorized: false,
+    isSample: true,
+  },
+];
+
+/** Testimonios que se muestran: reales autorizados + ejemplos marcados como tales. */
+export const visibleTestimonials = testimonials.filter((t) => t.publicationAuthorized || t.isSample);
 
 export const workPrinciples: { title: string; text: string }[] = [
   {

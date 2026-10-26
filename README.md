@@ -56,7 +56,7 @@ src/
 
 - **Servicios**: `src/data/services.ts` (cada servicio genera su página `/servicios/<slug>`).
 - **Portafolio**: `src/data/content.ts` → `portfolio`. Los ejemplos actuales están marcados como demostraciones conceptuales; reemplázalos por proyectos reales con autorización (`isConcept: false`, `image`, `href`).
-- **Testimonios**: `src/data/content.ts` → `testimonials`. Solo se muestran los que tengan `publicationAuthorized: true`; mientras esté vacío se muestran los principios de trabajo.
+- **Testimonios**: `src/data/content.ts` → `testimonials`. Los visitantes envían testimonios desde "Comparte tu experiencia"; llegan por correo (o webhook) para moderarlos y **no se publican automáticamente**. Para publicar uno real, agrégalo con `publicationAuthorized: true` y elimina los de ejemplo (`isSample: true`), que se muestran con la etiqueta "Testimonio de ejemplo".
 - **Textos legales**: son una base de referencia y deben ser revisados por un profesional legal.
 
 Las imágenes originales del logo y la mascota están en `assets/originales/`.

@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import "./globals.css";
 
 const inter = Inter({
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <WhatsAppButton />
         <CookieConsent gaId={siteConfig.gaId} />
       </body>
     </html>

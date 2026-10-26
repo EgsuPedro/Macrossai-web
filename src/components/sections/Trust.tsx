@@ -1,35 +1,9 @@
-import { CircleCheck, Quote } from "lucide-react";
-import { processSteps, testimonials, workPrinciples } from "@/data/content";
+import { CircleCheck } from "lucide-react";
+import { processSteps, workPrinciples } from "@/data/content";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Trust() {
-  const published = testimonials.filter((t) => t.publicationAuthorized);
-
-  if (published.length > 0) {
-    return (
-      <section id="testimonios" className="py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading eyebrow="Testimonios" title="Lo que dicen quienes trabajan con nosotros" />
-          <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {published.map((t, i) => (
-              <Reveal as="li" key={`${t.name}-${t.company}`} delay={(i % 3) * 90} className="glass rounded-3xl p-7">
-                <figure>
-                  <Quote className="text-electric size-7" aria-hidden />
-                  <blockquote className="text-ice/90 mt-4 leading-relaxed">“{t.quote}”</blockquote>
-                  <figcaption className="mt-5 text-sm">
-                    <span className="text-ice font-semibold">{t.name}</span>
-                    <span className="text-muted"> · {t.company}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section id="confianza" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">

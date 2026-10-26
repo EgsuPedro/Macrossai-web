@@ -8,6 +8,7 @@ import { ServicesCatalog } from "@/components/sections/ServicesCatalog";
 import { Solutions } from "@/components/sections/Solutions";
 import { Trust } from "@/components/sections/Trust";
 import { ValueProposition } from "@/components/sections/ValueProposition";
+import { Testimonials } from "@/components/testimonials/Testimonials";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <Differentiators />
       <Process />
       <Portfolio />
+      <Testimonials />
       <Trust />
       <CallToAction />
       <ContactSection />
