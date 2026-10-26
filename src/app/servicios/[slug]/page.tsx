@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ArrowRight, ChevronRight, CircleCheck, MessageCircle } from "lucide-react";
 import { ContactSection } from "@/components/contact/ContactSection";
 import { Process } from "@/components/sections/Process";
@@ -27,7 +28,15 @@ export async function generateMetadata({ params }: PageProps<"/servicios/[slug]"
   };
 }
 
-export default async function ServicePage({ params }: PageProps<"/servicios/[slug]">) {
+export default function ServicePage({ params }: PageProps<"/servicios/[slug]">) {
+  return (
+    <Suspense fallback={<div className="min-h-svh" />}>
+      <ServiceContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ServiceContent({ params }: { params: PageProps<"/servicios/[slug]">["params"] }) {
   const { slug } = await params;
   const service = getService(slug);
   if (!service) notFound();

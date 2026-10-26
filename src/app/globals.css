@@ -16,6 +16,7 @@
 
   --animate-float: float 7s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 5s ease-in-out infinite;
+  --animate-spin-slow: spin 60s linear infinite;
 
   @keyframes float {
     0%,
@@ -79,6 +80,11 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  /* La imagen original de la mascota viene cortada en los laterales: se desvanecen los bordes */
+  .mascot-fade {
+    mask-image: linear-gradient(to right, transparent 0%, black 9%, black 88%, transparent 100%);
   }
 
   .card-hover {

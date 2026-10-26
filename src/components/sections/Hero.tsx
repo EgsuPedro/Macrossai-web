@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowRight, ChartColumn, Code2, Megaphone, Sparkles, TrendingUp } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import mascota from "@/assets/brand/mascota.png";
+import mascota from "@/assets/brand/mascota-recorte.png";
 
 const tags = [
   { icon: Megaphone, label: "Marketing inteligente" },
@@ -113,24 +113,30 @@ function HeroIllustration() {
         </g>
       </svg>
 
-      {/* Panel central con la mascota */}
-      <div className="animate-float absolute inset-x-[16%] top-[6%] bottom-[6%]">
-        <div className="border-electric/30 relative h-full overflow-hidden rounded-[2rem] border shadow-[0_0_60px_-15px_rgb(18_216_232/0.55)]">
-          <Image
-            src={mascota}
-            alt="Mascota de Macross AI: un zorro robótico, asistente inteligente de la marca"
-            fill
-            priority
-            placeholder="blur"
-            sizes="(min-width: 1024px) 330px, 70vw"
-            className="object-cover object-top"
-          />
-          <div className="from-night/80 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
-          <div className="border-line bg-night/75 text-ice absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-xl border px-3 py-2 text-xs backdrop-blur-md">
-            <span className="bg-electric size-2 rounded-full shadow-[0_0_10px_#12D8E8]" aria-hidden />
-            Asistente Macross AI
-          </div>
-        </div>
+      {/* Anillos holográficos */}
+      <div aria-hidden className="absolute inset-0 flex items-center justify-center">
+        <div className="from-electric/25 via-teal/10 absolute size-[82%] rounded-full bg-radial to-transparent blur-2xl" />
+        <div className="border-electric/20 animate-spin-slow absolute size-[86%] rounded-full border border-dashed" />
+        <div className="border-teal/25 absolute size-[66%] rounded-full border" />
+        <div className="border-electric/10 absolute size-[100%] rounded-full border" />
+      </div>
+
+      {/* Plataforma luminosa */}
+      <div aria-hidden className="absolute inset-x-[18%] bottom-[5%] h-[9%]">
+        <div className="border-electric/50 absolute inset-0 rounded-[50%] border bg-[radial-gradient(ellipse_at_center,rgb(18_216_232/0.45),rgb(18_216_232/0.08)_55%,transparent_72%)] shadow-[0_0_50px_rgb(18_216_232/0.35)]" />
+        <div className="border-electric/25 absolute inset-x-[12%] inset-y-[22%] rounded-[50%] border" />
+      </div>
+
+      {/* Mascota recortada */}
+      <div className="animate-float absolute inset-x-[20%] top-[4%] bottom-[9%]">
+        <Image
+          src={mascota}
+          alt="Mascota de Macross AI: un zorro robótico, asistente inteligente de la marca"
+          fill
+          priority
+          sizes="(min-width: 1024px) 300px, 60vw"
+          className="mascot-fade object-contain object-bottom"
+        />
       </div>
 
       {/* Paneles flotantes */}
