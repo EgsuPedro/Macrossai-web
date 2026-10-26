@@ -59,4 +59,6 @@ src/
 - **Testimonios**: `src/data/content.ts` → `testimonials`. Solo se muestran los que tengan `publicationAuthorized: true`; mientras esté vacío se muestran los principios de trabajo.
 - **Textos legales**: son una base de referencia y deben ser revisados por un profesional legal.
 
-Las imágenes originales entregadas están en `assets/originales/`.
+Las imágenes originales del logo y la mascota están en `assets/originales/`.
+
+Las ilustraciones de servicios (`src/assets/services/<slug>.jpg`) son recortes de la franja central de los flyers de la marca (sin el texto incrustado), a 1200 px de ancho.

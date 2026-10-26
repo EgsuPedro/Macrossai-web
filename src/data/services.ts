@@ -13,6 +13,19 @@ import {
   Smartphone,
   Target,
 } from "lucide-react";
+import type { StaticImageData } from "next/image";
+import imgAplicacionesMoviles from "@/assets/services/aplicaciones-moviles.jpg";
+import imgAplicacionesWeb from "@/assets/services/aplicaciones-web.jpg";
+import imgAsesoriaVentas from "@/assets/services/asesoria-de-ventas-y-marketing.jpg";
+import imgComercioElectronico from "@/assets/services/comercio-electronico.jpg";
+import imgContabilidad from "@/assets/services/contabilidad.jpg";
+import imgDiseno from "@/assets/services/diseno-empresarial-y-de-interiores.jpg";
+import imgFacebookAds from "@/assets/services/facebook-ads.jpg";
+import imgFacturacion from "@/assets/services/facturacion-electronica.jpg";
+import imgFinanzas from "@/assets/services/finanzas-empresariales.jpg";
+import imgRedesSociales from "@/assets/services/manejo-de-redes-sociales.jpg";
+import imgMarketingDigital from "@/assets/services/marketing-digital.jpg";
+import imgPaginasWeb from "@/assets/services/paginas-web.jpg";
 
 export type ServiceCategoryId = "marketing" | "digital" | "finanzas" | "diseno";
 
@@ -27,6 +40,8 @@ export type Service = {
   name: string;
   category: ServiceCategoryId;
   icon: LucideIcon;
+  /** Ilustración del servicio (recortada de los flyers de la marca). */
+  image: StaticImageData;
   /** Texto breve para tarjetas. */
   summary: string;
   /** Introducción de la página de detalle. */
@@ -59,7 +74,22 @@ export const serviceCategories: ServiceCategory[] = [
   },
 ];
 
-export const services: Service[] = [
+const serviceImages: Record<string, StaticImageData> = {
+  "marketing-digital": imgMarketingDigital,
+  "facebook-ads": imgFacebookAds,
+  "manejo-de-redes-sociales": imgRedesSociales,
+  "asesoria-de-ventas-y-marketing": imgAsesoriaVentas,
+  "aplicaciones-web": imgAplicacionesWeb,
+  "paginas-web": imgPaginasWeb,
+  "comercio-electronico": imgComercioElectronico,
+  "aplicaciones-moviles": imgAplicacionesMoviles,
+  "facturacion-electronica": imgFacturacion,
+  contabilidad: imgContabilidad,
+  "finanzas-empresariales": imgFinanzas,
+  "diseno-empresarial-y-de-interiores": imgDiseno,
+};
+
+const serviceData: Omit<Service, "image">[] = [
   {
     slug: "marketing-digital",
     name: "Marketing digital",
@@ -395,6 +425,8 @@ export const services: Service[] = [
     },
   },
 ];
+
+export const services: Service[] = serviceData.map((s) => ({ ...s, image: serviceImages[s.slug] }));
 
 export function getService(slug: string) {
   return services.find((s) => s.slug === slug);

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -24,7 +25,11 @@ export async function generateMetadata({ params }: PageProps<"/servicios/[slug]"
     title: service.seo.title,
     description: service.seo.description,
     alternates: { canonical: `/servicios/${service.slug}` },
-    openGraph: { title: `${service.seo.title} | ${siteConfig.name}`, description: service.seo.description },
+    openGraph: {
+      title: `${service.seo.title} | ${siteConfig.name}`,
+      description: service.seo.description,
+      images: [{ url: service.image.src, width: service.image.width, height: service.image.height }],
+    },
   };
 }
 
@@ -90,28 +95,43 @@ async function ServiceContent({ params }: { params: PageProps<"/servicios/[slug]
             </ol>
           </nav>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
-            <Reveal>
-              <p className="text-teal text-xs font-semibold tracking-[0.2em] uppercase">{category.name}</p>
-              <h1 className="font-display mt-4 flex items-center gap-4 text-4xl leading-tight font-bold text-balance sm:text-5xl lg:text-6xl">
-                <span className="border-electric/30 bg-electric/10 inline-flex size-14 shrink-0 items-center justify-center rounded-2xl border sm:size-16">
-                  <Icon className="text-electric size-7 sm:size-8" aria-hidden />
-                </span>
-                {service.name}
-              </h1>
-              <p className="text-muted mt-6 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">
-                {service.intro}
-              </p>
-            </Reveal>
-            <Reveal delay={120} className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-              <ButtonLink href="#contacto">
-                Solicitar información <ArrowRight className="size-4" aria-hidden />
-              </ButtonLink>
-              {wa && (
-                <ExternalButton href={wa} variant="secondary">
-                  <MessageCircle className="size-4" aria-hidden /> WhatsApp
-                </ExternalButton>
-              )}
+          <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
+            <div>
+              <Reveal>
+                <p className="text-teal text-xs font-semibold tracking-[0.2em] uppercase">{category.name}</p>
+                <h1 className="font-display mt-4 flex items-center gap-4 text-4xl leading-tight font-bold text-balance sm:text-5xl lg:text-6xl">
+                  <span className="border-electric/30 bg-electric/10 inline-flex size-14 shrink-0 items-center justify-center rounded-2xl border sm:size-16">
+                    <Icon className="text-electric size-7 sm:size-8" aria-hidden />
+                  </span>
+                  {service.name}
+                </h1>
+                <p className="text-muted mt-6 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">
+                  {service.intro}
+                </p>
+              </Reveal>
+              <Reveal delay={120} className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="#contacto">
+                  Solicitar información <ArrowRight className="size-4" aria-hidden />
+                </ButtonLink>
+                {wa && (
+                  <ExternalButton href={wa} variant="secondary">
+                    <MessageCircle className="size-4" aria-hidden /> WhatsApp
+                  </ExternalButton>
+                )}
+              </Reveal>
+            </div>
+            <Reveal delay={160} className="relative">
+              <div aria-hidden className="bg-electric/20 absolute -inset-6 rounded-[3rem] blur-3xl" />
+              <div className="border-electric/30 relative overflow-hidden rounded-[2rem] border shadow-[0_0_60px_-20px_rgb(18_216_232/0.6)]">
+                <Image
+                  src={service.image}
+                  alt={`Ilustración de ${service.name} con la mascota de Macross AI`}
+                  priority
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                  className="h-auto w-full"
+                />
+              </div>
             </Reveal>
           </div>
         </div>
