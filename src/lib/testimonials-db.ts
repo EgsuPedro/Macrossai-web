@@ -1,25 +1,13 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import type { Testimonial } from "@/data/content";
+import { supabaseConfigured, supabaseFetch } from "@/lib/supabase";
 import type { TestimonialInput } from "@/lib/testimonial-schema";
 
 /** Etiqueta de caché: se invalida con `updateTag` al publicar un testimonio nuevo. */
 export const TESTIMONIALS_TAG = "testimonials";
 
-const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-export const testimonialsDbConfigured = Boolean(url && key);
-
-function headers(extra?: Record<string, string>) {
-  // Las claves nuevas (sb_secret_…) van solo en `apikey`; las antiguas (JWT service_role) también en Authorization.
-  return {
-    apikey: key!,
-    ...(key!.startsWith("sb_") ? {} : { Authorization: `Bearer ${key}` }),
-    "Content-Type": "application/json",
-    ...extra,
-  };
-}
+export const testimonialsDbConfigured = supabaseConfigured;
 
 type Row = { name: string; company: string; quote: string; rating: number; created_at: string };
 
@@ -31,9 +19,8 @@ export async function getPublishedTestimonials(): Promise<Testimonial[]> {
 
   if (!testimonialsDbConfigured) return [];
   try {
-    const res = await fetch(
-      `${url}/rest/v1/testimonials?select=name,company,quote,rating,created_at&published=eq.true&order=created_at.desc&limit=30`,
-      { headers: headers() },
+    const res = await supabaseFetch(
+      "testimonials?select=name,company,quote,rating,created_at&published=eq.true&order=created_at.desc&limit=30",
     );
     if (!res.ok) throw new Error(`Supabase respondió ${res.status}: ${await res.text()}`);
     const rows = (await res.json()) as Row[];
@@ -54,9 +41,9 @@ export async function getPublishedTestimonials(): Promise<Testimonial[]> {
 export type InsertResult = "ok" | "duplicate";
 
 export async function insertTestimonial(data: TestimonialInput): Promise<InsertResult> {
-  const res = await fetch(`${url}/rest/v1/testimonials`, {
+  const res = await supabaseFetch("testimonials", {
     method: "POST",
-    headers: headers({ Prefer: "return=minimal" }),
+    headers: { Prefer: "return=minimal" },
     body: JSON.stringify({
       name: data.name,
       company: data.company,

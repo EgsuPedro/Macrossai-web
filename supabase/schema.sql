@@ -22,3 +22,23 @@ create index if not exists testimonials_published_created_idx on public.testimon
 -- Solo el servidor del sitio (con la clave secreta) puede leer y escribir;
 -- así los correos nunca quedan expuestos al navegador.
 alter table public.testimonials enable row level security;
+
+-- Solicitudes del formulario de contacto.
+-- Se revisan en Table Editor → contact_requests; marca "attended" cuando ya respondiste.
+create table if not exists public.contact_requests (
+  id                uuid primary key default gen_random_uuid(),
+  created_at        timestamptz not null default now(),
+  name              text not null check (char_length(name) between 2 and 100),
+  company           text not null default '' check (char_length(company) <= 120),
+  email             text not null check (char_length(email) <= 254),
+  phone             text not null check (char_length(phone) <= 20),
+  service           text not null check (char_length(service) <= 120),
+  message           text not null check (char_length(message) between 15 and 2000),
+  privacy_accepted  boolean not null default true,
+  attended          boolean not null default false
+);
+
+create index if not exists contact_requests_created_idx on public.contact_requests (created_at desc);
+
+-- Mismo criterio de seguridad: solo el servidor del sitio accede a estos datos personales.
+alter table public.contact_requests enable row level security;

@@ -82,7 +82,7 @@ export default function PrivacyPage() {
         <h2>6. Encargados y transferencias</h2>
         <p>
           Podemos apoyarnos en proveedores tecnológicos (por ejemplo, servicios de correo electrónico, alojamiento web,
-          bases de datos como Supabase para los testimonios, o analítica) que tratan datos por nuestra cuenta y bajo
+          bases de datos como Supabase para las solicitudes de contacto y los testimonios, o analítica) que tratan datos por nuestra cuenta y bajo
           medidas de seguridad adecuadas. No vendemos tus datos personales.
         </p>
       </section>
